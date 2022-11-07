@@ -25,8 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      // home: const Home(),
-      home: const VerifyEmailView(),
+      home: const Home(),
       routes: {
         homePageRoute: (context) => const HomePage(),
         mainPageRoute: (context) => const MainPage(),
