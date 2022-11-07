@@ -40,6 +40,8 @@ dependencies:
   rive_splash_screen: ^0.1.1
   rive: ^0.9.1
   bottom_navy_bar: ^6.0.0
+  firebase_auth: ^4.1.1
+  firebase_core: ^2.1.1
 
 dev_dependencies:
   flutter_test:

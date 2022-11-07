@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gamify/Gunjan/login.dart';
-import 'package:gamify/Gunjan/register.dart';
+import 'package:gamify/personale/login.dart';
+import 'package:gamify/personale/register.dart';
 import 'package:gamify/Screens/chooseleague.dart';
-// import 'package:gamify/Screens/datascreen.dart';
-import 'package:gamify/Screens/leaguechose.dart';
-import 'package:gamify/Gunjan/MainScreen.dart';
-// import 'package:gamify/not%20linked/SplashScreen.dart';
 import 'package:gamify/Screens/leaguescreen.dart';
 import 'package:gamify/Screens/homepage.dart';
-// import 'package:gamify/not%20linked/SplashScreen.dart';
+import 'package:gamify/personale/verify_email.dart';
 import 'package:gamify/routes/routes.dart';
-// import 'package:rive/rive.dart';
-// import 'package:gamify/not%20linked/mainpage.dart';
-// import 'package:flutter/services.dart';
-// import 'package:gamify/not%20linked/updates.dart';
+import 'package:gamify/not%20linked/mainpage.dart';
+import 'package:gamify/services/auth/auth_services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,24 +25,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      // home: SplashScreen.navigate(
-      //   name: 'assets/rive/football.riv',
-      //   next: (context) => const Home(),
-      //   until: () => Future.delayed(const Duration(seconds: 4)),
-      //   startAnimation: 'start',
-      //   endAnimation: 'end',
-      // ),
-      home: const Home(),
-      // home: MainScreen(),
+      // home: const Home(),
+      home: const VerifyEmailView(),
       routes: {
         homePageRoute: (context) => const HomePage(),
-        // updateRoute: (context) => const UpdatePage(),
-        // mainPageRoute: (context) => const MainPage(),
+        mainPageRoute: (context) => const MainPage(),
         leaderBoardRoute: (context) => const LeagueScreen(),
-        loginRoute: (context) => const Mylogin(),
+        loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const MyRegister(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
         chooseLeagueRoute: (context) => const ChooseLeague(),
-        leagueChoseRoute: (context) => const LeagueChose(),
       },
       debugShowCheckedModeBanner: false,
     );
@@ -60,10 +46,26 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
-    // return const MyRegister();
-    // return const NavBar();
-    // return const SplashScreen();
-    return MainScreen();
+    return FutureBuilder(
+      future: AuthService.firebase().initialize(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = AuthService.firebase().currentUser;
+            if (user != null) {
+              if (user.isEmailVerified) {
+                return const HomePage();
+              } else {
+                return const VerifyEmailView();
+              }
+            } else {
+              return const LoginView();
+            }
+
+          default:
+            return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 }

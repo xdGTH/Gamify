@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:gamify/routes/routes.dart';
+import 'package:gamify/services/auth/auth_exception.dart';
+import 'package:gamify/services/auth/auth_services.dart';
+
+import '../utilities/dialogs/error_dialog.dart';
 
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
@@ -11,6 +15,23 @@ class MyRegister extends StatefulWidget {
 }
 
 class _MyRegisterState extends State<MyRegister> {
+  late final TextEditingController _email;
+  late final TextEditingController _password;
+
+  @override
+  void initState() {
+    _email = TextEditingController();
+    _password = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,10 +62,38 @@ class _MyRegisterState extends State<MyRegister> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 35, right: 35),
+                      margin: EdgeInsets.only(left: 35, right: 35, top: 115),
                       child: Column(
                         children: [
+                          // TextField(
+                          //   style: TextStyle(color: Colors.white),
+                          //   decoration: InputDecoration(
+                          //       enabledBorder: OutlineInputBorder(
+                          //         borderRadius: BorderRadius.circular(10),
+                          //         borderSide: BorderSide(
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //       focusedBorder: OutlineInputBorder(
+                          //         borderRadius: BorderRadius.circular(10),
+                          //         borderSide: BorderSide(
+                          //           color: Colors.black,
+                          //         ),
+                          //       ),
+                          //       hintText: "Name",
+                          //       hintStyle: TextStyle(color: Colors.white),
+                          //       border: OutlineInputBorder(
+                          //         borderRadius: BorderRadius.circular(10),
+                          //       )),
+                          // ),
+                          // SizedBox(
+                          //   height: 30,
+                          // ),
                           TextField(
+                            controller: _email,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            keyboardType: TextInputType.emailAddress,
                             style: TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -59,42 +108,21 @@ class _MyRegisterState extends State<MyRegister> {
                                     color: Colors.black,
                                   ),
                                 ),
-                                hintText: "Name",
+                                hintText: "Enter your email here",
                                 hintStyle: TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           TextField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                hintText: "Email",
-                                hintStyle: TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          TextField(
-                            style: TextStyle(color: Colors.white),
+                            controller: _password,
                             obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            style: TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -108,7 +136,7 @@ class _MyRegisterState extends State<MyRegister> {
                                     color: Colors.black,
                                   ),
                                 ),
-                                hintText: "Password",
+                                hintText: "Enter your password here",
                                 hintStyle: TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -132,7 +160,42 @@ class _MyRegisterState extends State<MyRegister> {
                                 backgroundColor: Color(0xff4c505b),
                                 child: IconButton(
                                     color: Colors.white,
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      final email = _email.text;
+                                      final password = _password.text;
+                                      try {
+                                        await AuthService.firebase().createUser(
+                                          email: email,
+                                          password: password,
+                                        );
+                                        AuthService.firebase()
+                                            .sendEmailVerification();
+                                        final user =
+                                            AuthService.firebase().currentUser;
+                                        Navigator.of(context)
+                                            .pushNamed(verifyEmailRoute);
+                                      } on WeakPasswordAuthException {
+                                        await showErrorDialog(
+                                          context,
+                                          'Weak password',
+                                        );
+                                      } on EmailAlreadyInUseAuthException {
+                                        await showErrorDialog(
+                                          context,
+                                          'Email is already in use',
+                                        );
+                                      } on InvalidEmailAuthException {
+                                        await showErrorDialog(
+                                          context,
+                                          'This is an invalid email',
+                                        );
+                                      } on GenericAuthException {
+                                        await showErrorDialog(
+                                          context,
+                                          'Failed to register',
+                                        );
+                                      }
+                                    },
                                     icon: Icon(
                                       Icons.arrow_forward,
                                     )),
@@ -153,11 +216,11 @@ class _MyRegisterState extends State<MyRegister> {
                                   'Sign In',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                      decoration: TextDecoration.underline,
+                                      // decoration: TextDecoration.underline,
                                       color: Colors.white,
-                                      fontSize: 18),
+                                      fontSize: 19),
                                 ),
-                                style: ButtonStyle(),
+                                // style: ButtonStyle(),
                               ),
                             ],
                           )

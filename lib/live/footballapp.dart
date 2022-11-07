@@ -29,10 +29,15 @@ class _FootballAppState extends State<FootballApp> {
         //here we call our getData() method,
         future: FootballApi().getAllMatches(),
         // here we will build the app layout
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             print(1);
-            return PageBody(snapshot.data as List<FootballMatch>);
+            return PageBody(snapshot.data!);
+          } else if (snapshot.hasError) {
+            // print('${snapshot.error}');
+            return Center(
+              child: Text('${snapshot.error}'),
+            );
           } else {
             return const Center(
               child: CircularProgressIndicator(),

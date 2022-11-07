@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gamify/enums/menu_action.dart';
 import 'package:gamify/routes/routes.dart';
+import 'package:gamify/services/auth/auth_services.dart';
+import 'package:gamify/utilities/dialogs/logout_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,6 +16,39 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white70,
+        elevation: 0.2,
+        title: const Text(
+          'Gamify',
+          style: TextStyle(fontSize: 25),
+        ),
+        actions: [
+          PopupMenuButton<MenuAction>(
+            onSelected: (value) async {
+              switch (value) {
+                case MenuAction.logout:
+                  final shouldLogout = await showLogOutDialog(context);
+                  if (shouldLogout) {
+                    await AuthService.firebase().logOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      loginRoute,
+                      (_) => false,
+                    );
+                  }
+              }
+            },
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem<MenuAction>(
+                  value: MenuAction.logout,
+                  child: Text('Log out'),
+                )
+              ];
+            },
+          )
+        ],
+      ),
       backgroundColor: Colors.indigo.shade600,
       body: Center(
         child: Container(
