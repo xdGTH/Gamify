@@ -1,3 +1,7 @@
+
+
+
+
 import 'dart:convert';
 
 import 'package:gamify/live/footballmodel.dart';
@@ -15,23 +19,25 @@ class FootballApi {
     // 'x-rapidapi-key': '95b2f73dd73e0e12a5eb4d51b3d47af8',
   };
 
-  Future<List<FootballMatch>> getAllMatches() async {
+  Future<void>  getAllMatches() async {
+      var data;
     http.Response res = await http.get(Uri.parse(apiUrl), headers: headers);
     String body = res.body;
 
     if (res.statusCode == 200) {
-      //this mean that we are connected to the data base
-      Map data = jsonDecode(body);
-      List<dynamic> matchesList = data['response'];
-      // print('Api service: ${matchesList}');
-      // List<FootballMatch> matches = data['response'];
-      List<FootballMatch> matches = matchesList
-          .map((dynamic item) => FootballMatch.fromJson(item))
-          .toList();
+      
+    
+      data = jsonDecode(res.body.length.toString());
 
-      print('${matches}');
 
-      return matches;
+
+      
+      
+   
+     
+    
+     
+        
     } else {
       print('hello');
       throw Exception('Error accessing API');

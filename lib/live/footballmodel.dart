@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class FootballMatch {
   Fixture fixture;
   Team home;
@@ -13,6 +15,7 @@ class FootballMatch {
       Goal.formJson(json['goals']),
     );
   }
+  
 }
 
 class Fixture {
@@ -58,3 +61,8 @@ class Goal {
     return Goal(json['home'], json['away']);
   }
 }
+List<FootballMatch> matchfromjson(String str) =>
+    List<FootballMatch>.from(json.decode(str).map((x) => FootballMatch.fromJson(x)));
+
+String matchtojson(List<FootballMatch> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.fixture)));
