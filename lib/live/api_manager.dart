@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'dart:developer';
 
 import 'package:gamify/live/footballmodel.dart';
 import 'package:http/http.dart' as http;
@@ -10,9 +11,9 @@ class FootballApi {
   // static String api_Key = "95b2f73dd73e0e12a5eb4d51b3d47af8";
 
   var headers = {
-    'x-apisports-key': '3e8e2ffc781fd9aa993acc64f3cfb4eb',
-    // 'x-rapidapi-host': "v3.football.api-sports.io",
-    // 'x-rapidapi-key': '95b2f73dd73e0e12a5eb4d51b3d47af8',
+    // 'x-apisports-key': '3e8e2ffc781fd9aa993acc64f3cfb4eb',
+    'x-rapidapi-host': "v3.football.api-sports.io",
+    'x-rapidapi-key': '3e8e2ffc781fd9aa993acc64f3cfb4eb',
   };
 
   Future<List<FootballMatch>> getAllMatches() async {
@@ -20,17 +21,19 @@ class FootballApi {
     String body = res.body;
 
     if (res.statusCode == 200) {
+      // debugger();
       //this mean that we are connected to the data base
       Map data = jsonDecode(body);
       List<dynamic> matchesList = data['response'];
-      // print('Api service: ${matchesList}');
+      print('Api service: ${matchesList}');
       // List<FootballMatch> matches = data['response'];
+      // debugger();
       List<FootballMatch> matches = matchesList
           .map((dynamic item) => FootballMatch.fromJson(item))
           .toList();
 
-      print('${matches}');
-
+      // print('Api service : ${matches}');
+//
       return matches;
     } else {
       print('hello');

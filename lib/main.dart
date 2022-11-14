@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gamify/personale/login.dart';
-import 'package:gamify/personale/register.dart';
+import 'package:gamify/Screens/login_signup/login.dart';
+import 'package:gamify/Screens/login_signup/register.dart';
 import 'package:gamify/Screens/chooseleague.dart';
 import 'package:gamify/Screens/leaguescreen.dart';
 import 'package:gamify/Screens/homepage.dart';
-import 'package:gamify/personale/verify_email.dart';
+import 'package:gamify/Screens/login_signup/verify_email.dart';
 import 'package:gamify/routes/routes.dart';
 import 'package:gamify/not%20linked/mainpage.dart';
 import 'package:gamify/services/auth/auth_services.dart';

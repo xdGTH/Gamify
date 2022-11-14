@@ -2,11 +2,10 @@
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:gamify/Screens/TableScreen.dart';
+import 'package:gamify/Screens/profile/profile.dart';
+
 import 'package:gamify/dummypage.dart';
 import 'package:gamify/live/footballapp.dart';
-import 'package:gamify/not%20linked/mainpage.dart';
-import 'package:gamify/not%20linked/updates.dart';
 
 class NavBar extends StatefulWidget {
   final String data;
@@ -29,8 +28,9 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> _children = [
     DummyPage1(),
     FootballApp(),
+    ProfileScreen(),
     DummyPage1(),
-    DummyPage1(),
+
     // TableScreen(code: _data),
     // MainPage(),
     // UpdatePage(),

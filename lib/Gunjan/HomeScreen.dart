@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify/Gunjan/MainScreen.dart';
 
 import 'FixtureScreen.dart';
-import 'ProfileScreen.dart';
+// import 'ProfileScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _widgetOptions = <Widget>[
     MainScreen(),
     FixtureScreen(),
-    ProfileScreen(),
+    // ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
