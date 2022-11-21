@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:gamify/live/footballmodel.dart';
 
-import 'api_manager.dart';
 import 'package:http/http.dart' as http;
-
-import 'pagerbody.dart';
 
 class FootballApp extends StatefulWidget {
   const FootballApp({super.key});
