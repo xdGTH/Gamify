@@ -2,6 +2,7 @@
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:gamify/Screens/TableScreen.dart';
 import 'package:gamify/Screens/profile/profile.dart';
 
 import 'package:gamify/dummypage.dart';
@@ -27,7 +28,8 @@ class _NavBarState extends State<NavBar> {
 
   int currentIndex = 0;
   final List<Widget> _children = [
-    DummyPage1(),
+    // DummyPage1(),
+    TableScreen(code: 'PL'),
     FootballApp(),
     ProfileScreen(),
     PastMatches(),
