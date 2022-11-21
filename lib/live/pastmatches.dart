@@ -6,16 +6,15 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:http/http.dart' as http;
 
-class FootballApp extends StatefulWidget {
-  const FootballApp({super.key});
+class PastMatches extends StatefulWidget {
+  const PastMatches({super.key});
 
   @override
-  State<FootballApp> createState() => _FootballAppState();
+  State<PastMatches> createState() => _PastMatchesState();
 }
 
-class _FootballAppState extends State<FootballApp> {
+class _PastMatchesState extends State<PastMatches> {
   List? _matches;
-  List? _futurematches;
   getLlive() async {
     http.Response response = await http.get(
         Uri.parse(
@@ -27,24 +26,21 @@ class _FootballAppState extends State<FootballApp> {
     String body = response.body;
     Map data = jsonDecode(body);
     List matches = data['response'];
-    List futurematches = data['response'];
     setState(() {
       _matches = matches;
-      _futurematches = futurematches;
     });
   }
 
   Widget buildList() {
     List<Widget> matches = [];
-    List<Widget> futurematches = [];
     for (var match in _matches ?? []) {
       var homeLogo = match['teams']['home']['logo'].toString();
       var awayLogo = match['teams']['away']['logo'].toString();
       var lastThreeHome = homeLogo.substring(homeLogo.length - 3);
       var lastThreeAway = awayLogo.substring(awayLogo.length - 3);
-      if (match['fixture']['status']['elapsed'].toString() != 'null' &&
-          match['fixture']['status']['elapsed'].toString() != '90') {
-        matches.add(
+      if (match['fixture']['status']['elapsed'].toString() != 'null') {
+        matches.insert(
+          0,
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
@@ -158,94 +154,6 @@ class _FootballAppState extends State<FootballApp> {
     );
   }
 
-  Widget futureList() {
-    List<Widget> futurematches = [];
-    for (var match in _matches ?? []) {
-      var homeLogo = match['teams']['home']['logo'].toString();
-      var awayLogo = match['teams']['away']['logo'].toString();
-      var lastThreeHome = homeLogo.substring(homeLogo.length - 3);
-      var lastThreeAway = awayLogo.substring(awayLogo.length - 3);
-      if (match['fixture']['status']['elapsed'].toString() == 'null') {
-        futurematches.add(
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    lastThreeHome == 'png'
-                        ? Image.network(
-                            match['teams']['home']['logo'],
-                            height: 60,
-                            width: 60,
-                          )
-                        : SvgPicture.network(
-                            match['teams']['home']['logo'],
-                            height: 60,
-                            width: 60,
-                          ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      match['teams']['home']['name'].toString(),
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "V.S.",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    lastThreeAway == 'png'
-                        ? Image.network(
-                            match['teams']['away']['logo'],
-                            height: 60,
-                            width: 60,
-                          )
-                        : SvgPicture.network(
-                            match['teams']['away']['logo'],
-                            height: 60,
-                            width: 60,
-                          ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      match['teams']['away']['name'].toString(),
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-    }
-    return Column(
-      children: futurematches,
-    );
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -272,7 +180,7 @@ class _FootballAppState extends State<FootballApp> {
               // backgroundColor: const Color(0xffafafafa),
               elevation: 0.0,
               title: const Text(
-                "Matches",
+                "Past Matches",
                 style: TextStyle(color: Colors.black),
               ),
               centerTitle: true,
@@ -282,7 +190,6 @@ class _FootballAppState extends State<FootballApp> {
                   parent: AlwaysScrollableScrollPhysics()),
               children: [
                 buildList(),
-                futureList(),
               ],
             ),
           );

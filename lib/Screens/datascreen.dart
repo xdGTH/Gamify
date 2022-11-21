@@ -6,6 +6,7 @@ import 'package:gamify/Screens/profile/profile.dart';
 
 import 'package:gamify/dummypage.dart';
 import 'package:gamify/live/footballapp.dart';
+import 'package:gamify/live/pastmatches.dart';
 
 class NavBar extends StatefulWidget {
   final String data;
@@ -29,14 +30,7 @@ class _NavBarState extends State<NavBar> {
     DummyPage1(),
     FootballApp(),
     ProfileScreen(),
-    DummyPage1(),
-
-    // TableScreen(code: _data),
-    // MainPage(),
-    // UpdatePage(),
-    // MainPage(),
-
-    // TableScreen(code: code),
+    PastMatches(),
   ];
   @override
   Widget build(BuildContext context) {
