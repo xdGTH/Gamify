@@ -175,7 +175,7 @@ class _FootballAppState extends State<FootballApp> {
             
 
               children: [
-                Container(
+                SizedBox(
                   height: 150,
                   width: 100,
                   child: Column(
@@ -192,7 +192,7 @@ class _FootballAppState extends State<FootballApp> {
                               height: 60,
                               width: 60,
                             ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
@@ -216,7 +216,7 @@ class _FootballAppState extends State<FootballApp> {
                   ],
                 ),
                 
-                Container(
+                SizedBox(
                   height: 150,
                   width: 100,
                   child: Column(
