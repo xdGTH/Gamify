@@ -168,72 +168,85 @@ class _FootballAppState extends State<FootballApp> {
       if (match['fixture']['status']['elapsed'].toString() == 'null') {
         futurematches.add(
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
+
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            
+
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    lastThreeHome == 'png'
-                        ? Image.network(
-                            match['teams']['home']['logo'],
-                            height: 60,
-                            width: 60,
-                          )
-                        : SvgPicture.network(
-                            match['teams']['home']['logo'],
-                            height: 60,
-                            width: 60,
-                          ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      match['teams']['home']['name'].toString(),
-                      style: const TextStyle(
-                        fontSize: 15,
+                Container(
+                  height: 150,
+                  width: 100,
+                  child: Column(
+               
+                    children: [
+                      lastThreeHome == 'png'
+                          ? Image.network(
+                              match['teams']['home']['logo'],
+                              height: 60,
+                              width: 60,
+                            )
+                          : SvgPicture.network(
+                              match['teams']['home']['logo'],
+                              height: 60,
+                              width: 60,
+                            ),
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                  ],
+                      Text(
+                        match['teams']['home']['name'].toString(),
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+               
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children:const [
                     Text(
                       "V.S.",
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    lastThreeAway == 'png'
-                        ? Image.network(
-                            match['teams']['away']['logo'],
-                            height: 60,
-                            width: 60,
-                          )
-                        : SvgPicture.network(
-                            match['teams']['away']['logo'],
-                            height: 60,
-                            width: 60,
-                          ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      match['teams']['away']['name'].toString(),
-                      style: const TextStyle(
-                        fontSize: 15.0,
+                
+                Container(
+                  height: 150,
+                  width: 100,
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.end,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      lastThreeAway == 'png'
+                          ? Image.network(
+                              match['teams']['away']['logo'],
+                              height: 60,
+                              width: 60,
+                            )
+                          : SvgPicture.network(
+                              match['teams']['away']['logo'],
+                              height: 60,
+                              width: 60,
+                            ),
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                  ],
+                      Text(
+                        match['teams']['away']['name'].toString(),
+                        
+                        maxLines: 2,
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

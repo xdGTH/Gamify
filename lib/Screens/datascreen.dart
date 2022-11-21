@@ -2,15 +2,15 @@
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:gamify/Screens/TableScreen.dart';
 import 'package:gamify/Screens/profile/profile.dart';
-
-import 'package:gamify/dummypage.dart';
 import 'package:gamify/live/footballapp.dart';
 import 'package:gamify/live/pastmatches.dart';
 
 class NavBar extends StatefulWidget {
-  final String data;
-  const NavBar({Key? key, required this.data}) : super(key: key);
+   
+
+   NavBar({Key? key,  }) : super(key: key);
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -21,13 +21,14 @@ class _NavBarState extends State<NavBar> {
 
   @override
   void initState() {
-    _data = widget.data;
+   
     super.initState();
   }
 
   int currentIndex = 0;
   final List<Widget> _children = [
-    DummyPage1(),
+    TableScreen(code: 'PL'),
+
     FootballApp(),
     ProfileScreen(),
     PastMatches(),

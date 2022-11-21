@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify/Screens/TableScreen.dart';
 import 'package:gamify/Screens/datascreen.dart';
 import 'package:gamify/Widgets/LeagueContainer.dart';
+import 'package:gamify/commonbutton.dart';
 import 'package:gamify/routes/routes.dart';
 
 class LeagueScreen extends StatefulWidget {
@@ -32,6 +33,7 @@ class _LeagueScreenState extends State<LeagueScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView(
               children: [
+              
                 const SizedBox(
                   height: 30,
                 ),
@@ -58,7 +60,7 @@ class _LeagueScreenState extends State<LeagueScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => NavBar(data: 'PL'),
+                              builder: (context) => NavBar(),
                               // builder: (context) => TableScreen(code: 'PL'),
                             ));
                       },
